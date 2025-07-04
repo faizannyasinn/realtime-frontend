@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Multiplayer Gaming Arena</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="screen active">
+            <div class="logo">
+                <h1><i class="fas fa-gamepad"></i> Gaming Arena</h1>
+                <p class="subtitle">Multiplayer Real-time Gaming</p>
+            </div>
+            
+            <div class="main-menu">
+                <div class="input-group">
+                    <input type="text" id="playerName" placeholder="Enter your name" maxlength="15">
+                </div>
+                
+                <div class="menu-buttons">
+                    <button id="createRoomBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Room
+                    </button>
+                    
+                    <div class="join-room">
+                        <input type="text" id="roomCode" placeholder="Room Code" maxlength="6">
+                        <button id="joinRoomBtn" class="btn btn-secondary">
+                            <i class="fas fa-sign-in-alt"></i> Join Room
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waiting Screen -->
+        <div id="waitingScreen" class="screen">
+            <div class="waiting-content">
+                <h2>Room: <span id="currentRoomCode"></span></h2>
+                <div class="players-list">
+                    <div id="playersList"></div>
+                </div>
+                <div class="waiting-animation">
+                    <div class="spinner"></div>
+                    <p id="waitingText">Waiting for opponent...</p>
+                </div>
+                <button id="leaveRoomBtn" class="btn btn-danger">
+                    <i class="fas fa-times"></i> Leave Room
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Selection Screen -->
+        <div id="gameSelectionScreen" class="screen">
+            <h2>Choose Your Game</h2>
+            <div class="games-grid">
+                <button class="game-btn" data-game="tictactoe">
+                    <i class="fas fa-th"></i>
+                    <span>Tic Tac Toe</span>
+                </button>
+                <button class="game-btn" data-game="dotsandboxes">
+                    <i class="fas fa-border-all"></i>
+                    <span>Dots & Boxes</span>
+                </button>
+                <button class="game-btn" data-game="connect4">
+                    <i class="fas fa-circle"></i>
+                    <span>Connect 4</span>
+                </button>
+                <button class="game-btn" data-game="battleship">
+                    <i class="fas fa-ship"></i>
+                    <span>Battleship</span>
+                </button>
+                <button class="game-btn" data-game="checkers">
+                    <i class="fas fa-chess-board"></i>
+                    <span>Checkers</span>
+                </button>
+                <button class="game-btn" data-game="gomoku">
+                    <i class="fas fa-dot-circle"></i>
+                    <span>Gomoku</span>
+                </button>
+                <button class="game-btn" data-game="ludo">
+                    <i class="fas fa-dice"></i>
+                    <span>Ludo</span>
+                </button>
+                <button class="game-btn" data-game="minichess">
+                    <i class="fas fa-chess"></i>
+                    <span>Mini Chess</span>
+                </button>
+                <button class="game-btn" data-game="memorymatch">
+                    <i class="fas fa-memory"></i>
+                    <span>Memory Match</span>
+                </button>
+                <button class="game-btn" data-game="minesweeper">
+                    <i class="fas fa-bomb"></i>
+                    <span>Minesweeper Duel</span>
+                </button>
+            </div>
+            <button id="backToWaitingBtn" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen">
+            <div class="game-header">
+                <div class="player-info">
+                    <div id="player1Info" class="player-card">
+                        <span class="player-name"></span>
+                        <span class="player-status"></span>
+                    </div>
+                    <div class="game-title">
+                        <h3 id="currentGameTitle"></h3>
+                        <div id="turnIndicator"></div>
+                    </div>
+                    <div id="player2Info" class="player-card">
+                        <span class="player-name"></span>
+                        <span class="player-status"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="gameArea" class="game-area">
+                <!-- Game boards will be dynamically inserted here -->
+            </div>
+            
+            <div class="game-controls">
+                <button id="exitGameBtn" class="btn btn-danger">
+                    <i class="fas fa-home"></i> Exit Game
+                </button>
+                <button id="newGameBtn" class="btn btn-primary" style="display: none;">
+                    <i class="fas fa-redo"></i> New Game
+                </button>
+            </div>
+        </div>
+
+        <!-- Winner Modal -->
+        <div id="winnerModal" class="modal">
+            <div class="modal-content">
+                <div class="winner-animation">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="winnerText"></h2>
+                <div class="winner-buttons">
+                    <button id="playAgainBtn" class="btn btn-primary">
+                        <i class="fas fa-redo"></i> Play Again
+                    </button>
+                    <button id="changeGameBtn" class="btn btn-secondary">
+                        <i class="fas fa-gamepad"></i> Choose Different Game
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="clickSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmIcBz2J0O++di0FnGbC7+OZURE" type="audio/wav">
+    </audio>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
