@@ -1,5 +1,5 @@
 
-const socket = io();
+const socket = io(const socket = io("https://realtime-backend-production-d971.up.railway.app"););
 
 // Game state
 let currentRoom = null;
